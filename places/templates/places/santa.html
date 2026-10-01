@@ -22,6 +22,12 @@
             <h1>🎅 Таємний Санта</h1>
             <p class="muted">Додайте учасників та проведіть жеребкування!</p>
 
+            {% if error %}
+                <div class="error" style="margin: 1rem 0; padding: 0.8rem; background: #ff7675; color: #fff; border-radius: 0.5rem; font-weight: 600;">
+                 ⚠️ {{ error }}
+                </div>
+            {% endif %}
+
             <div class="grid" style="margin-top: 1.5rem;">
                 <div>
                     <h2>Додати учасника</h2>

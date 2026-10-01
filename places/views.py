@@ -24,18 +24,23 @@ def santa_view(request):
     return render(request, 'places/santa.html', context)
 
 def shuffle_santa(request):
-    participants = list(Participant.objects.all())
-    if len(participants) > 1:
-        #Алгоритм жеребкування
+   if request.method == 'POST':
+        participants = list(Participant.objects.all())
+        
+        # ВАЛІДАЦІЯ: перевіряємо, чи достатньо учасників
+        if len(participants) < 2:
+            request.session['santa_error'] = 'Для проведення жеребкування потрібно щонайменше 2 учасники!'
+            return redirect('santa')
+        
         givers = participants.copy()
         receivers = participants.copy()
         
-        #Перемішуємо доти, доки хтось не витягне сам себе
+        # Алгоритм, щоб ніхто не дарував сам собі
         while any(g == r for g, r in zip(givers, receivers)):
             random.shuffle(receivers)
-            
-        for g, r in zip(givers, receivers):
-            g.assigned_to = r.name
-            g.save()
-            
-    return redirect('santa')
+
+        for giver, receiver in zip(givers, receivers):
+            giver.assigned_to = receiver.name
+            giver.save()
+
+        return redirect('santa')
