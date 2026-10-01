@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Чи вже Різдво?</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <a href="{% url 'home' %}" class="brand">🎄 Christmas App</a>
+        <nav>
+            <a href="{% url 'home' %}">Головна</a>
+            <a href="{% url 'santa' %}">Таємний Санта</a>
+        </nav>
+    </header>
+
+    <main class="page">
+        <div class="card" style="text-align: center;">
+            <p class="eyebrow">Святковий моніторинг</p>
+            <h1>Чи вже сьогодні Різдво?</h1>
+            
+            <!-- Динамічна відповідь (Yes або No) -->
+            <div class="answer">{{ is_christmas }}</div>
+            
+            <p class="muted">Слідкуйте за святами разом із нами!</p>
+            
+            <div class="actions" style="justify-content: center; margin-top: 1.5rem;">
+                <a href="{% url 'santa' %}" style="display: inline-block; padding: 0.7rem 1.2rem; background: var(--color-green); color: var(--color-surface); border-radius: 0.75rem; text-decoration: none; font-weight: 650;">
+                    Перейти до Таємного Санти →
+                </a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
