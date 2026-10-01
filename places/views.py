@@ -1,6 +1,6 @@
 import random
 from django.shortcuts import render, redirect
-from .models import Place, Participant
+from .models import Participant
 from .forms import ParticipantForm
 
 def home(request):

@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Таємний Санта</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <a href="{% url 'home' %}" class="brand">🎄 Christmas App</a>
+        <nav>
+            <a href="{% url 'home' %}">Головна</a>
+            <a href="{% url 'santa' %}">Таємний Санта</a>
+        </nav>
+    </header>
+
+    <main class="page">
+        <div class="card">
+            <span class="eyebrow">🎁 Організуйте свято</span>
+            <h1>🎅 Таємний Санта</h1>
+            <p class="muted">Додайте учасників та проведіть жеребкування!</p>
+
+            <div class="grid" style="margin-top: 1.5rem;">
+                <div>
+                    <h2>Додати учасника</h2>
+                    <form method="POST" style="margin-top: 1rem;">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit">Додати</button>
+                    </form>
+                </div>
+                <div>
+                    <h2>Учасники ({{ participants|length }})</h2>
+
+                    {% if participants %}
+                        <ul class="participants-list">
+                            {% for p in participants %}
+                                <li>
+                                    <strong>{{ p.name }}</strong> 
+                                    {% if p.assigned_to %}
+                                        ➔ Дарує для: <strong>{{ p.assigned_to }}</strong>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                               
+        <!--Кнопка жеребкування-->
+        <form action="{% url 'shuffle_santa' %}" method="POST" style="margin-top: 1.5rem;">
+            {% csrf_token %}
+            <button type="submit" name="draw">Провести жеребкування</button>
+        </form>
+                {% else %}
+                    <p class="muted">Поки що немає учасників.</p>
+                {% endif %}
+    </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
