@@ -2,9 +2,16 @@ import random
 from django.shortcuts import render, redirect
 from .models import Participant
 from .forms import ParticipantForm
+from datetime import datetime
 
 def home(request):
-    return render(request, 'places/home.html')
+    now = datetime.now()
+    if now.month == 12 and now.day == 25:
+        is_christmas = "Yes"
+    else:
+        is_christmas = "No"
+
+    return render(request, 'places/home.html', {'is_christmas': is_christmas})
 
 def santa_view(request):
     participants = Participant.objects.all()
@@ -16,10 +23,13 @@ def santa_view(request):
             return redirect('santa')
     else:
         form = ParticipantForm()
+
+    error = request.session.pop('santa_error', None)
         
     context = {
         'form': form,
         'participants': participants,
+        'error': error,
     }
     return render(request, 'places/santa.html', context)
 
